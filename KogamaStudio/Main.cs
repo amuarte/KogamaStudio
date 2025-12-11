@@ -18,7 +18,7 @@ namespace KogamaStudio
             //HarmonyLib.Harmony harmony = new HarmonyLib.Harmony("KogamaStudio");
             //harmony.PatchAll();
 
-            //MelonLogger.Msg("KogamaStudio loaded!");
+            MelonLogger.Msg("KogamaStudio loaded!");
         }
 
     }
