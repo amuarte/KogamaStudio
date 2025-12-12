@@ -5,7 +5,7 @@ VisualStudioVersion = 17.13.35931.197
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KogamaStudio", "KogamaStudio\KogamaStudio.csproj", "{E4BD08FF-48CF-441C-AB70-C83667F4138F}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Universal-ImGui-Hook", "..\Universal-Dear-ImGui-Hook\Universal-ImGui-Hook.vcxproj", "{1C015F7C-647E-46E3-855E-614B434116A6}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "KogamaStudio-ImGui-Hook", "Universal-Dear-ImGui-Hook\Universal-ImGui-Hook.vcxproj", "{1C015F7C-647E-46E3-855E-614B434116A6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
