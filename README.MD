@@ -54,7 +54,7 @@ Copy the `KogamaStudio` folder to:
 %localappdata%\KogamaStudio\
 ```
 
-This folder contains ResourcePacks.
+This folder contains ResourcePacks folder.
 
 #### Step 4: Done!
 Launch the game and press **F2** to open the menu.
