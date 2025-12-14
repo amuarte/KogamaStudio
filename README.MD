@@ -8,6 +8,8 @@ A mod for KoGaMa with resource pack loader and game tools.
 - 🔧 **Game Tools**
   - No Build Limit
   - Single Side Painting
+  
+![Example](images/example.png)
 
 ## Installation
 
@@ -52,10 +54,10 @@ Copy the `KogamaStudio` folder to:
 %localappdata%\KogamaStudio\
 ```
 
-This folder contains ResourcePacks and Config files.
+This folder contains ResourcePacks.
 
 #### Step 4: Done!
-Launch the game and press **M** to open the menu.
+Launch the game and press **F2** to open the menu.
 
 ## Requirements
 
