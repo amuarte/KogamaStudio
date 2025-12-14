@@ -50,20 +50,16 @@ namespace inputhook {
         {
             ImGui_ImplWin32_WndProcHandler(hwnd, uMsg, wParam, lParam);
             ImGuiIO& io = ImGui::GetIO();
-            if (io.WantCaptureMouse || io.WantCaptureKeyboard)
-            {
-                switch (uMsg)
-                {
-                case WM_KEYUP:
-                case WM_SYSKEYUP:
-                case WM_LBUTTONUP:
-                case WM_RBUTTONUP:
-                case WM_MBUTTONUP:
-                case WM_XBUTTONUP:
-                    return CallWindowProc(sOriginalWndProc, hwnd, uMsg, wParam, lParam);
-                default:
-                    return TRUE;
-                }
+
+            if (io.WantCaptureMouse && (uMsg >= WM_MOUSEFIRST && uMsg <= WM_MOUSELAST)) {
+                return TRUE;
+            }
+
+            if (io.WantCaptureKeyboard && (uMsg >= WM_KEYFIRST && uMsg <= WM_KEYLAST)) {
+                return TRUE;
+            }
+            if (io.WantCaptureKeyboard && uMsg == WM_CHAR) {
+                return TRUE;
             }
         }
 

@@ -114,6 +114,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(ProjectDir)</AdditionalIncludeDirectories>
+      <LanguageStandard>Default</LanguageStandard>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -121,6 +122,10 @@
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>vulkan-1.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="d3d9hook.cpp" />
@@ -144,9 +149,14 @@
     <ClCompile Include="inputhooks.cpp" />
     <ClCompile Include="menu.cpp" />
     <ClCompile Include="mousehooks.cpp" />
+    <ClCompile Include="pipe.cpp" />
+    <ClCompile Include="ResourcePackLoader.cpp" />
+    <ClCompile Include="ResourcePackLoader.h" />
     <ClCompile Include="vulkanhook.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\..\Downloads\json.hpp" />
+    <ClInclude Include="..\..\..\..\Downloads\stb_image.h" />
     <ClInclude Include="imgui\imconfig.h" />
     <ClInclude Include="imgui\imgui.h" />
     <ClInclude Include="imgui\imgui_impl_dx9.h" />
@@ -160,6 +170,7 @@
     <ClInclude Include="imgui\imstb_textedit.h" />
     <ClInclude Include="imgui\imstb_truetype.h" />
     <ClInclude Include="namespaces.h" />
+    <ClInclude Include="pipe.h" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>

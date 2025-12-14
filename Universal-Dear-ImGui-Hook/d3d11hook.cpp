@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "pipe.h"
 
 namespace hooks_dx11 {
     using Microsoft::WRL::ComPtr;
@@ -10,7 +11,7 @@ namespace hooks_dx11 {
     static void* pPresent1Target = nullptr;
     static void* pResizeBuffersTarget = nullptr;
 
-    static ID3D11Device* gDevice = nullptr;
+    ID3D11Device* gDevice = nullptr;
     static ID3D11DeviceContext* gContext = nullptr;
     static IDXGISwapChain* gSwapChain = nullptr;
     static ID3D11RenderTargetView* gRTV = nullptr;
@@ -49,6 +50,13 @@ namespace hooks_dx11 {
 
     static void RenderFrame(IDXGISwapChain* pSwapChain)
     {
+        static bool pipeInitialized = false;
+        if (!pipeInitialized)
+        {
+            pipe::ListenForCommands();
+            pipeInitialized = true;
+        }
+
         static bool loggedPresent = false;
         if (!loggedPresent)
         {
@@ -98,19 +106,21 @@ namespace hooks_dx11 {
             ImGui::NewFrame();
 
             ImGuiIO& io = ImGui::GetIO();
-            io.MouseDrawCursor = false;
+            
+            menu::Init();
 
-            if (menu::isOpen)
+            if (ImGui::IsAnyItemHovered())
             {
-                menu::Init();
-                io.WantCaptureMouse = io.WantCaptureMouse && ImGui::IsAnyItemHovered();
-                io.WantCaptureKeyboard = io.WantCaptureKeyboard && ImGui::IsAnyItemActive();
+                ImGui::GetIO().WantCaptureMouse = true;
+                ImGui::GetIO().WantCaptureKeyboard = false;
             }
             else
             {
-                io.WantCaptureMouse = false;
-                io.WantCaptureKeyboard = false;
+                ImGui::GetIO().WantCaptureMouse = false;
+                ImGui::GetIO().WantCaptureKeyboard = false;
             }
+
+
             ImGui::EndFrame();
             ImGui::Render();
             gContext->OMSetRenderTargets(1, &gRTV, nullptr);

@@ -24,6 +24,10 @@
       <HintPath>..\..\..\..\AppData\Local\KogamaLauncher-WWW\Launcher\Standalone\MelonLoader\Il2CppAssemblies\Il2Cppmscorlib.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Il2CppMVWorldObject">
+      <HintPath>..\..\..\..\AppData\Local\KogamaLauncher-WWW\Launcher\Standalone\MelonLoader\Il2CppAssemblies\Il2CppMVWorldObject.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Il2CppSystem">
       <HintPath>..\..\..\..\AppData\Local\KogamaLauncher-WWW\Launcher\Standalone\MelonLoader\Il2CppAssemblies\Il2CppSystem.dll</HintPath>
       <Private>False</Private>
@@ -46,6 +50,10 @@
     </Reference>
     <Reference Include="UnityEngine.ImageConversionModule">
       <HintPath>..\..\..\..\AppData\Local\KogamaLauncher-WWW\Launcher\Standalone\MelonLoader\Il2CppAssemblies\UnityEngine.ImageConversionModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.InputLegacyModule">
+      <HintPath>..\..\..\..\AppData\Local\KogamaLauncher-WWW\Launcher\Standalone\MelonLoader\Dependencies\Il2CppAssemblyGenerator\Cpp2IL\cpp2il_out\UnityEngine.InputLegacyModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
   </ItemGroup>

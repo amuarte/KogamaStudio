@@ -1,6 +1,12 @@
-﻿using Il2Cpp;
+﻿using Harmony;
+using Il2Cpp;
+using Il2CppSystem.Runtime.InteropServices;
+using KogamaStudio.Textures;
+using KogamaStudio.Tools;
 using MelonLoader;
 using System.IO.Pipes;
+using System.Runtime.InteropServices;
+using UnityEngine;
 
 
 namespace KogamaStudio
@@ -37,11 +43,15 @@ namespace KogamaStudio
 
         private static void ProcessCommand(string cmd)
         {
-            string[] parts = cmd.Split(':');
+            string[] parts = cmd.Split('|');
             string command = parts[0];
 
             MelonCoroutines.Start(ExecuteCommand(command, parts.Length > 1 ? parts[1] : ""));
         }
+
+        public static CursorLockMode previousLockState = CursorLockMode.None;
+        public static bool previousVisible = true;
+        private static bool cursorStateRestored = false;
 
         private static System.Collections.IEnumerator ExecuteCommand(string command, string param)
         {
@@ -50,20 +60,39 @@ namespace KogamaStudio
             try { 
                 switch (command)
                 {
-                    case "swap_texture":
-                        string basePath = Path.Combine(
-                            Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-                            "KogamaStudio",
-                            "ResourcePacks"
-                        );
+                    case "resourcepacks_load":
 
-                        string texturePath = Path.Combine(basePath, "fire_pack", "Fire.png");
+                        string path = Path.Combine(PathHelper.GetPath(), "ResourcePacks", param, "materials");
 
-                        TextureSwapper.SwapFireTexture(texturePath);
+                        if (!Directory.Exists(path))
+                        {
+                            MelonLogger.Error($"Path not found {path}");
+                            break;
+                        }
+
+                        var files = Enumerable.Range(0, 69)
+                            .Select(i => $"{path}/{i}.png")
+                            .ToList();
+
+                        MaterialsLoader.LoadTexture(files);
                         break;
-                    case "test_message":
-                        TextCommand.NotifyUser("Hello World!");
+
+                    case "resourcepacks_reset":
+                        MVGameControllerBase.MaterialLoader.SetMainTexture(DefaultMaterials.defaultMaterials, true);
                         break;
+                    case "imgui_menu":
+                        if (param == "true")
+                        {
+
+                        }
+                         break;
+                    case "option_no_build_limit":
+                        NoBuildLimit.Enabled = param == "true";
+                        break;
+                    case "option_single_side_painting":
+                        SingleSidePainting.Enabled = param == "true";
+                        break;
+
                     default:
                         MelonLogger.Msg($"[Commands] Unknown: {command}");
                         break;

@@ -22,6 +22,13 @@ struct ID3D11Device;
 struct ID3D11DeviceContext;
 struct ID3D11SamplerState;
 struct ID3D11Buffer;
+struct IDXGISwapChain;
+
+namespace hooks_dx11 {
+    extern ID3D11Device* gDevice;
+    extern ID3D11DeviceContext* gContext;
+    extern IDXGISwapChain* gSwapChain;
+}
 
 // Follow "Getting Started" link and check examples/ folder to learn about using backends!
 IMGUI_IMPL_API bool     ImGui_ImplDX11_Init(ID3D11Device* device, ID3D11DeviceContext* device_context);
