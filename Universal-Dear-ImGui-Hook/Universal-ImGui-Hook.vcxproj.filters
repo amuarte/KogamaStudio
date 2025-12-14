@@ -84,6 +84,15 @@
     <ClCompile Include="vulkanhook.cpp">
       <Filter>Sources Files</Filter>
     </ClCompile>
+    <ClCompile Include="ResourcePackLoader.h">
+      <Filter>Sources Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourcePackLoader.cpp">
+      <Filter>Sources Files</Filter>
+    </ClCompile>
+    <ClCompile Include="pipe.cpp">
+      <Filter>Sources Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="imgui\imconfig.h">
@@ -127,6 +136,15 @@
     </ClInclude>
     <ClInclude Include="imgui\imgui_impl_dx11.h">
       <Filter>Headers Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\json.hpp">
+      <Filter>Sources Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\stb_image.h">
+      <Filter>Sources Files</Filter>
+    </ClInclude>
+    <ClInclude Include="pipe.h">
+      <Filter>Sources Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

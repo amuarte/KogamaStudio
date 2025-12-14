@@ -8,11 +8,11 @@ namespace globals {
     // Key to uninject and exit (F11 by default)
     int uninjectKey = 0;
     // Key to open/close the ImGui menu (INSERT by default)
-    int openMenuKey = VK_F2;
+    int openMenuKey = 0;
     // Preferred backend to hook (None = auto fallback -> Not recommanded, specify your engine here)
     Backend preferredBackend = Backend::DX11;
     // Flag controlling runtime debug logging
-    bool enableDebugLog = true;
+    bool enableDebugLog = false;
     // Currently active rendering backend
     Backend activeBackend = Backend::None; // DO NOT MODIFY THIS LINE.
 }

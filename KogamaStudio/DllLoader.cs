@@ -10,6 +10,7 @@ namespace KogamaStudio
 
         public static void Load(string dllName)
         {
+
             IntPtr handle = LoadLibrary(dllName);
             if (handle == IntPtr.Zero)
                 MelonLogger.Error($"Failed to load {dllName}");
