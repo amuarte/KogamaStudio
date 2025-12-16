@@ -4,6 +4,8 @@ using MelonLoader;
 
 namespace KogamaStudio.Tools
 {
+    // kogamatools
+
     [HarmonyPatch]
     internal class SingleSidePainting
     {
