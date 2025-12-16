@@ -74,5 +74,5 @@ Section "Install"
   SetOutPath "$selectedServer"
   File /r "files_for_launcher\*.*"
   
-  MessageBox MB_OK "KogamaStudio v0.1.0 installed successfully!$\n$\nServer path: $selectedServer"
+  MessageBox MB_OK "KogamaStudio v0.1.1 installed successfully!$\n$\nServer path: $selectedServer"
 SectionEnd

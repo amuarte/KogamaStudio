@@ -173,7 +173,7 @@ namespace menu {
 
                 if (ImGui::BeginTabItem("About"))
                 {
-                    ImGui::Text("KogamaStudio v0.1.0");
+                    ImGui::Text("KogamaStudio v0.1.1");
                     ImGui::Spacing();
                     ImGui::Separator();
                     ImGui::Spacing();
