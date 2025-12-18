@@ -42,6 +42,7 @@ namespace menu {
     void Init() {
         static bool packsLoaded = false;
         static std::vector<Pack> cachedPacks;
+        static float scale = 1.0f;
 
         if (!packsLoaded)
         {
@@ -72,9 +73,10 @@ namespace menu {
         // Style setup (one-time)
         static bool styled = false;
         if (!styled) {
-            //ImGui::StyleColorsDark();
+            ImGui::StyleColorsClassic();
             ImVec4* colors = ImGui::GetStyle().Colors;
             // Custom color palette
+            /*
             colors[ImGuiCol_WindowBg] = ImVec4(0.192f, 0.231f, 0.271f, 1.0f); // like kogama
             colors[ImGuiCol_Header] = ImVec4(0.035f, 0.31f, 0.4f, 0.8f); // like kogama maybe
             colors[ImGuiCol_HeaderHovered] = ImVec4(0.035f, 0.31f, 0.4f, 1.0f); // like kogama
@@ -98,6 +100,9 @@ namespace menu {
             colors[ImGuiCol_Tab] = ImVec4(0.035f, 0.31f, 0.4f, 1.0f);
             colors[ImGuiCol_TabHovered] = ImVec4(0.235f, 0.51f, 0.6f, 1.0f);
             colors[ImGuiCol_TabActive] = ImVec4(0.135f, 0.41f, 0.5f, 1.0f);
+            */
+
+            ImGui::GetStyle().ScaleAllSizes(scale);
 
             styled = true;
             DebugLog("[menu] Style applied.\n");
@@ -122,10 +127,18 @@ namespace menu {
                         if (NoBuildLimit) SendCommand("option_no_build_limit|true");
                         else SendCommand("option_no_build_limit|false");
                     }
-                    if (ImGui::Checkbox("Single Side Painting", &SingleSidePainting)) {
+
+                    // cause crashes
+                    if (ImGui::Checkbox("##single_side", &SingleSidePainting)) {
                         if (SingleSidePainting) SendCommand("option_single_side_painting|true");
                         else SendCommand("option_single_side_painting|false");
                     }
+                    ImGui::SameLine();
+                    ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "Single Side Painting [EXPERIMENTAL]");
+
+                    if (ImGui::IsItemHovered())
+                        ImGui::SetTooltip("Enabling this may cause crashes.");
+
 
                     ImGui::EndTabItem();
                 }
@@ -142,7 +155,7 @@ namespace menu {
 
                     auto DrawPack = [](const char* name, const char* author, const char* description, const char* cmd, ImTextureID icon)
                         {
-                            ImGui::BeginChild(name, ImVec2(300, 100), true);
+                            ImGui::BeginChild(name, ImVec2(300*scale, 100*scale), true);
                             ImGui::Columns(2, nullptr, false);
                             ImGui::SetColumnWidth(0, 200);
 
@@ -173,7 +186,7 @@ namespace menu {
 
                 if (ImGui::BeginTabItem("About"))
                 {
-                    ImGui::Text("KogamaStudio v0.1.1");
+                    ImGui::Text("KogamaStudio v0.1.2");
                     ImGui::Spacing();
                     ImGui::Separator();
                     ImGui::Spacing();

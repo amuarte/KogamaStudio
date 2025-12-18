@@ -3,7 +3,7 @@ using UnityEngine;
 using Il2Cpp;
 using UnityEngine.Windows;
 
-[assembly: MelonInfo(typeof(KogamaStudio.Main), "KogamaStudio", "0.1.1", "Amuarte")]
+[assembly: MelonInfo(typeof(KogamaStudio.Main), "KogamaStudio", "0.1.2", "Amuarte")]
 [assembly: MelonGame("Multiverse ApS", "KoGaMa")]
 
 namespace KogamaStudio
@@ -11,14 +11,14 @@ namespace KogamaStudio
     public class Main : MelonMod
     {
         public static bool gameInitialized = false;
+        private static bool harmonyPatched = false;
         public override void OnInitializeMelon()
         {
+            if (harmonyPatched) return;
+
             DllLoader.Load("KogamaStudio-ImGui-Hook.dll");
             CommandHandler.StartListening();
             DirectoryManager.Initialize();
-
-            HarmonyLib.Harmony harmony = new HarmonyLib.Harmony("KogamaStudio");
-            harmony.PatchAll();
         }
 
         public override void OnUpdate()
@@ -30,6 +30,9 @@ namespace KogamaStudio
             {
                 if (MVGameControllerBase.IsInitialized)
                 {
+                    HarmonyLib.Harmony harmony = new HarmonyLib.Harmony("KogamaStudio");
+                    harmony.PatchAll();
+
                     MelonLogger.Msg("KogamaStudio loaded!");
 
                     gameInitialized = true;
