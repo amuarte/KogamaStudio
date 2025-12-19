@@ -83,3 +83,7 @@ Launch the game and press **F2** to open the menu.
 
 MIT
 
+## Discord
+
+[Discord Server]()
+
