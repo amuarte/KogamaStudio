@@ -85,5 +85,5 @@ MIT
 
 ## Discord
 
-[Discord Server]()
+[Discord Server](https://discord.gg/u6tKuP3k4M)
 
