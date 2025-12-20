@@ -2,8 +2,9 @@
 using Il2Cpp;
 using UnityEngine;
 using System.Reflection;
+using System.ComponentModel;
 
-namespace KogamaStudio.Textures
+namespace KogamaStudio.ResourcePacks.Materials
 {
     public class MaterialsLoader
     {

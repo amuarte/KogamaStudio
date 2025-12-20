@@ -184,9 +184,16 @@ namespace menu {
 
                 }
 
+                if (ImGui::BeginTabItem("Generating"))
+                {
+                    if (ImGui::Button("Place cube", ImVec2(-1, 0))) SendCommand("generating_model");
+
+                    ImGui::EndTabItem();
+                }
+
                 if (ImGui::BeginTabItem("About"))
                 {
-                    ImGui::Text("KogamaStudio v0.1.2");
+                    ImGui::Text("KogamaStudio v0.2.0");
                     ImGui::Spacing();
                     ImGui::Separator();
                     ImGui::Spacing();

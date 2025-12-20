@@ -3,7 +3,7 @@ using HarmonyLib;
 using MelonLoader;
 using UnityEngine;
 
-namespace KogamaStudio.Textures
+namespace KogamaStudio.ResourcePacks.Materials
 {
     [HarmonyPatch(typeof(MaterialLoader), "SetMainTexture")]
 
