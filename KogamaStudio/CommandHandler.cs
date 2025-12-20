@@ -1,7 +1,8 @@
 ﻿using Harmony;
 using Il2Cpp;
 using Il2CppSystem.Runtime.InteropServices;
-using KogamaStudio.Textures;
+using KogamaStudio.Models;
+using KogamaStudio.ResourcePacks.Materials;
 using KogamaStudio.Tools;
 using MelonLoader;
 using System.IO.Pipes;
@@ -91,6 +92,9 @@ namespace KogamaStudio
                         break;
                     case "option_single_side_painting":
                         SingleSidePainting.Enabled = param == "true";
+                        break;
+                    case "generating_model":
+                        ModelBuilder.PlaceCube();
                         break;
 
                     default:

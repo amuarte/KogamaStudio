@@ -10,5 +10,15 @@ namespace KogamaStudio
                 "KogamaStudio"       
             );
         }
+
+        public static string GetMaterialsPath()
+        {
+            return Path.Combine(
+                GetPath(),
+                "ResourcePacks",
+                "Default",
+                "materials"
+            );
+        }
     }
 }

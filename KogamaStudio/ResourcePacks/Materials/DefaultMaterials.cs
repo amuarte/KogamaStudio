@@ -5,9 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using HarmonyLib;
 using Il2Cpp;
+using MelonLoader;
 using UnityEngine;
 
-namespace KogamaStudio.Textures
+namespace KogamaStudio.ResourcePacks.Materials
 {
     [HarmonyPatch(typeof(MaterialLoader), "SetMainTexture")]
     public class DefaultMaterials
@@ -21,8 +22,9 @@ namespace KogamaStudio.Textures
 
             if (defaultMaterials != null) return;
 
-            defaultMaterials = texture;
+            MelonLogger.Msg(new System.Diagnostics.StackTrace());
 
+            defaultMaterials = texture;
         }
     }
 }
