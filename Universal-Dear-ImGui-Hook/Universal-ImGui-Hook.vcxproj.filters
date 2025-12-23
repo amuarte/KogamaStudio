@@ -16,6 +16,9 @@
     <Filter Include="Sources Files\imgui">
       <UniqueIdentifier>{962e4318-7c4d-4132-ab8f-78399f1e978e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources Files\menu">
+      <UniqueIdentifier>{41dc1cb8-d11b-4cfb-956a-26d2918815dc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -93,6 +96,9 @@
     <ClCompile Include="pipe.cpp">
       <Filter>Sources Files</Filter>
     </ClCompile>
+    <ClCompile Include="MenuHelpers.cpp">
+      <Filter>Sources Files\menu</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="imgui\imconfig.h">
@@ -145,6 +151,9 @@
     </ClInclude>
     <ClInclude Include="pipe.h">
       <Filter>Sources Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuHelpers.h">
+      <Filter>Sources Files\menu</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

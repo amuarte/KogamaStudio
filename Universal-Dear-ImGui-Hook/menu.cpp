@@ -1,8 +1,10 @@
 ﻿#include "stdafx.h"
 #include "ResourcePackLoader.h"
 #include "pipe.h"
+#include "MenuHelpers.h"
 #include <chrono>
 #include <thread>
+#include <filesystem>
 
 namespace menu {
     bool isOpen = false;
@@ -10,39 +12,12 @@ namespace menu {
     static bool noTitleBar = false;
     static HMODULE hModule = nullptr;
 
-    void SendCommand(const char* cmd)
-    {
-        HANDLE hPipe = CreateFileA(
-            "\\\\.\\pipe\\KogamaStudio",
-            GENERIC_WRITE, 0, NULL, OPEN_EXISTING, 0, NULL
-        );
-        if (hPipe != INVALID_HANDLE_VALUE) {
-            DWORD written;
-            WriteFile(hPipe, cmd, strlen(cmd), &written, NULL);
-            CloseHandle(hPipe);
-            DebugLog("[menu] Command sent: %s\n", cmd);
-        }
-        else {
-            DebugLog("[menu] Pipe not connected\n");
-        }
-    }
-
-    void OpenResourcePacksFolder()
-    {
-        char* buffer = nullptr;
-        size_t len;
-        _dupenv_s(&buffer, &len, "APPDATA");
-        std::string path = std::string(buffer) + "\\..\\Local\\KogamaStudio\\ResourcePacks";
-        free(buffer);
-
-        std::string cmd = "explorer \"" + path + "\"";
-        system(cmd.c_str());
-    }
-
     void Init() {
         static bool packsLoaded = false;
         static std::vector<Pack> cachedPacks;
         static float scale = 1.0f;
+        static bool typing1 = false;
+        static bool typing2 = false;
 
         if (!packsLoaded)
         {
@@ -68,39 +43,31 @@ namespace menu {
             return;
         }
 
-        if (!pipe::openMenu) return;
+        if (!pipe::cursorVisible) {
+            RECT rect;
+            GetWindowRect(GetForegroundWindow(), &rect);
+            int centerX = (rect.left + rect.right) / 2;
+            int centerY = (rect.top + rect.bottom) / 2;
+            SetCursorPos(centerX, centerY);
+        }
+
+        if (!pipe::openMenu) {
+            return;
+        }
+
+        if (typing1 || typing2) {
+            io.WantCaptureKeyboard = true;
+        }
+        else {
+            io.WantCaptureKeyboard = false;
+        }
+
 
         // Style setup (one-time)
         static bool styled = false;
         if (!styled) {
-            ImGui::StyleColorsClassic();
+            ImGui::StyleColorsDark();
             ImVec4* colors = ImGui::GetStyle().Colors;
-            // Custom color palette
-            /*
-            colors[ImGuiCol_WindowBg] = ImVec4(0.192f, 0.231f, 0.271f, 1.0f); // like kogama
-            colors[ImGuiCol_Header] = ImVec4(0.035f, 0.31f, 0.4f, 0.8f); // like kogama maybe
-            colors[ImGuiCol_HeaderHovered] = ImVec4(0.035f, 0.31f, 0.4f, 1.0f); // like kogama
-
-            //button
-            colors[ImGuiCol_Button] = ImVec4(0.157f, 0.192f, 0.227f, 1.0f); // like kogama
-            colors[ImGuiCol_ButtonHovered] = ImVec4(0.357f, 0.392f, 0.427f, 1.0f); // like kogama maybe
-            colors[ImGuiCol_ButtonActive] = ImVec4(0.557f, 0.592f, 0.627f, 1.0f); // like kogama
-
-            //checkbox
-            colors[ImGuiCol_CheckMark] = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
-            colors[ImGuiCol_FrameBg] = ImVec4(0.157f, 0.192f, 0.227f, 1.0f);
-            colors[ImGuiCol_FrameBgHovered] = ImVec4(0.357f, 0.392f, 0.427f, 1.0f);
-
-            //begin
-            colors[ImGuiCol_TitleBg] = ImVec4(0.035f, 0.31f, 0.4f, 1.0f);
-            colors[ImGuiCol_TitleBgActive] = ImVec4(0.035f, 0.31f, 0.4f, 1.0f);
-            colors[ImGuiCol_TitleBgCollapsed] = ImVec4(0.035f, 0.31f, 0.4f, 0.5f);
-
-            //tabbar
-            colors[ImGuiCol_Tab] = ImVec4(0.035f, 0.31f, 0.4f, 1.0f);
-            colors[ImGuiCol_TabHovered] = ImVec4(0.235f, 0.51f, 0.6f, 1.0f);
-            colors[ImGuiCol_TabActive] = ImVec4(0.135f, 0.41f, 0.5f, 1.0f);
-            */
 
             ImGui::GetStyle().ScaleAllSizes(scale);
 
@@ -121,13 +88,64 @@ namespace menu {
                 if (ImGui::BeginTabItem("Tools"))
                 {
                     static bool NoBuildLimit = false;
+                    static bool AntiAFK = false;
                     static bool SingleSidePainting = false;
 
+                    static bool CustomGridSizeEnabled = false;
+                    static float CustomGridSizeValue = 1.0f;
+
+                    static bool CustomRotStepEnabled = false;
+                    static float CustomRotStepValue = 15.0f;
+
+                    // no build limit
                     if (ImGui::Checkbox("No Build Limit", &NoBuildLimit)) {
                         if (NoBuildLimit) SendCommand("option_no_build_limit|true");
                         else SendCommand("option_no_build_limit|false");
                     }
 
+                    // anti afk
+                    if (ImGui::Checkbox("Anti AFK", &AntiAFK)) {
+                        if (AntiAFK) SendCommand("option_anti_afk|true");
+                        else SendCommand("option_anti_afk|false");
+                    }
+
+                    // custom grid size
+                    if (ImGui::Checkbox("Custom Grid Size", &CustomGridSizeEnabled)) {
+                        if (CustomGridSizeEnabled) SendCommand("option_custom_grid_size_enabled|true");
+                        else SendCommand("option_custom_grid_size_enabled|false");
+                    }
+
+                    if (CustomGridSizeEnabled) {
+                        ImGui::PushItemWidth(100);
+                        ImGui::InputFloat("Size", &CustomGridSizeValue);
+                        ImGui::PopItemWidth();
+
+                        typing1 = ImGui::IsItemActive();
+
+                        if (ImGui::IsItemEdited()) {
+                            SendCommand(("option_custom_grid_size|" + std::to_string(CustomGridSizeValue)).c_str());
+                        }
+                    }
+
+                    // custom rot step
+                    if (ImGui::Checkbox("Custom Rotation Step", &CustomRotStepEnabled)) {
+                        if (CustomRotStepEnabled) SendCommand("option_custom_rot_step_enabled|true");
+                        else SendCommand("option_custom_rot_step_enabled|false");
+                    }
+
+                    if (CustomRotStepEnabled) {
+                        ImGui::PushItemWidth(100);
+                        ImGui::InputFloat("Step", &CustomRotStepValue);
+                        ImGui::PopItemWidth();
+
+                        typing2 = ImGui::IsItemActive();
+
+                        if (ImGui::IsItemEdited()) {
+                            SendCommand(("option_custom_rot_step_size|" + std::to_string(CustomRotStepValue)).c_str());
+                        }
+                    }
+
+                    // single side painting
                     // cause crashes
                     if (ImGui::Checkbox("##single_side", &SingleSidePainting)) {
                         if (SingleSidePainting) SendCommand("option_single_side_painting|true");
@@ -147,7 +165,7 @@ namespace menu {
                 {
                     if (ImGui::Button("Refesh Packs")) cachedPacks = LoadPacks();
                     ImGui::SameLine();
-                    if (ImGui::Button("Open Folder")) OpenResourcePacksFolder();
+                    if (ImGui::Button("Open Folder")) OpenFolder("ResourcePacks");
                     ImGui::SameLine();
                     if (ImGui::Button("Reset")) SendCommand("resourcepacks_reset");
 
@@ -184,10 +202,12 @@ namespace menu {
 
                 }
 
-                if (ImGui::BeginTabItem("Generating"))
+                if (ImGui::BeginTabItem("Generate"))
                 {
-                    if (ImGui::Button("Place cube", ImVec2(-1, 0))) SendCommand("generating_model");
-
+                    if (ImGui::Button("Open Folder")) OpenFolder("Generate\\Models");
+                    char path[MAX_PATH];
+                    ExpandEnvironmentStringsA("%LOCALAPPDATA%\\KogamaStudio\\Generate\\Models", path, MAX_PATH);
+                    DisplayDirTree(path);
                     ImGui::EndTabItem();
                 }
 

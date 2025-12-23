@@ -1,14 +1,21 @@
 #include "stdafx.h"
+#include "pipe.h"
 
 using SetCursorPos_t = BOOL (WINAPI*)(int,int);
 static SetCursorPos_t oSetCursorPos = nullptr;
 BOOL WINAPI hookSetCursorPos(int x,int y) {
+    if (!pipe::cursorVisible) {
+        return oSetCursorPos(x, y);
+    }
     return menu::isOpen ? TRUE : oSetCursorPos(x,y);
 }
 
 using ClipCursor_t = BOOL (WINAPI*)(const RECT*);
 static ClipCursor_t oClipCursor = nullptr;
 BOOL WINAPI hookClipCursor(const RECT* rect) {
+    if (!pipe::cursorVisible) {
+        return TRUE;
+    }
     return menu::isOpen ? TRUE : oClipCursor(rect);
 }
 

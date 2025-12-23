@@ -23,7 +23,7 @@ namespace KogamaStudio
 
         public override void OnUpdate()
         {
-            string cursor = Cursor.visible ? "true" : "false";
+            string cursor = Cursor.visible || Cursor.lockState == CursorLockMode.None ? "true" : "false";
             PipeClient.SendCommand($"cursor|{cursor}");
 
             if (!gameInitialized)

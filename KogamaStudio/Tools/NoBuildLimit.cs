@@ -4,7 +4,7 @@ using MelonLoader;
 
 namespace KogamaStudio.Tools
 {
-    // thanks kogamatools for this code xd
+    // thanks kogamatools
 
     [HarmonyPatch]
     internal static class NoBuildLimit

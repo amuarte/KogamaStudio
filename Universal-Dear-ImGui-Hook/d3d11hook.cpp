@@ -111,14 +111,13 @@ namespace hooks_dx11 {
 
             if (ImGui::IsAnyItemHovered())
             {
-                ImGui::GetIO().WantCaptureMouse = true;
-                ImGui::GetIO().WantCaptureKeyboard = false;
+                io.WantCaptureMouse = true;
             }
             else
             {
-                ImGui::GetIO().WantCaptureMouse = false;
-                ImGui::GetIO().WantCaptureKeyboard = false;
+                io.WantCaptureMouse = false;
             }
+
 
 
             ImGui::EndFrame();
