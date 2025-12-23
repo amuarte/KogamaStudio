@@ -13,6 +13,8 @@ namespace KogamaStudio
         {
             Directory.CreateDirectory(_basePath);
             Directory.CreateDirectory(Path.Combine(_basePath, "ResourcePacks"));
+            Directory.CreateDirectory(Path.Combine(_basePath, "Generate", "Models"));
+
         }
     }
 }

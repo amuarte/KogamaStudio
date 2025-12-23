@@ -1,7 +1,8 @@
 ﻿using Harmony;
 using Il2Cpp;
+using Il2CppBorodar.FarlandSkies.CloudyCrownPro.DotParams;
 using Il2CppSystem.Runtime.InteropServices;
-using KogamaStudio.Models;
+using KogamaStudio.Generating.Models;
 using KogamaStudio.ResourcePacks.Materials;
 using KogamaStudio.Tools;
 using MelonLoader;
@@ -93,8 +94,26 @@ namespace KogamaStudio
                     case "option_single_side_painting":
                         SingleSidePainting.Enabled = param == "true";
                         break;
-                    case "generating_model":
-                        ModelBuilder.PlaceCube();
+                    case "option_anti_afk":
+                        AntiAFK.Enabled = param == "true";
+                        break;
+                    // GRID SIZE
+                    case "option_custom_grid_size_enabled":
+                        CustomGrid.Enabled = param == "true";
+                        break;
+                    case "option_custom_grid_size":
+                        CustomGrid.GridSize = float.Parse(param);
+                        break;
+                    // ROTATION STEP
+                    case "option_custom_rot_step_enabled":
+                        RotationStep.Enabled = param == "true";
+                        break;
+                    case "option_custom_rot_step_size":
+                        RotationStep.Step = float.Parse(param);
+                        break;
+                    case "generate_model":
+                        var cubes = ModelLoader.LoadModel(param);
+                        if (cubes != null) MelonCoroutines.Start(ModelBuilder.Build(cubes));
                         break;
 
                     default:

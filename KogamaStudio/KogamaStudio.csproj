@@ -39,10 +39,14 @@
     </Reference>
     <Reference Include="MVCommon">
       <HintPath>..\..\..\..\AppData\Local\KogamaLauncher-WWW\Launcher\Standalone\MelonLoader\Dependencies\Il2CppAssemblyGenerator\Cpp2IL\cpp2il_out\MVCommon.dll</HintPath>
-      <Private>False</Private>
+      <Private>True</Private>
     </Reference>
     <Reference Include="MVWorldObject">
       <HintPath>..\..\..\..\AppData\Local\KogamaLauncher-WWW\Launcher\Standalone\MelonLoader\Dependencies\Il2CppAssemblyGenerator\Cpp2IL\cpp2il_out\MVWorldObject.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\..\..\AppData\Local\KogamaLauncher-WWW\Launcher\Standalone\MelonLoader\net6\Newtonsoft.Json.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
