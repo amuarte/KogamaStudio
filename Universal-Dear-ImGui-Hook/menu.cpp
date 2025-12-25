@@ -18,6 +18,9 @@ namespace menu {
         static float scale = 1.0f;
         static bool typing1 = false;
         static bool typing2 = false;
+        static bool typing3 = false;
+
+        static bool initializationNotification = false;
 
         if (!packsLoaded)
         {
@@ -55,7 +58,7 @@ namespace menu {
             return;
         }
 
-        if (typing1 || typing2) {
+        if (typing1 || typing2 || typing3) {
             io.WantCaptureKeyboard = true;
         }
         else {
@@ -161,6 +164,7 @@ namespace menu {
                     ImGui::EndTabItem();
                 }
 
+                // RESOURCE PACKS
                 if (ImGui::BeginTabItem("Resource Packs"))
                 {
                     if (ImGui::Button("Refesh Packs")) cachedPacks = LoadPacks();
@@ -170,10 +174,12 @@ namespace menu {
                     if (ImGui::Button("Reset")) SendCommand("resourcepacks_reset");
 
                     ImGui::Spacing();
+                    ImGui::Separator();
+                    ImGui::Spacing();
 
                     auto DrawPack = [](const char* name, const char* author, const char* description, const char* cmd, ImTextureID icon)
                         {
-                            ImGui::BeginChild(name, ImVec2(300*scale, 100*scale), true);
+                            ImGui::BeginChild(name, ImVec2(300, 100), true);
                             ImGui::Columns(2, nullptr, false);
                             ImGui::SetColumnWidth(0, 200);
 
@@ -204,10 +210,53 @@ namespace menu {
 
                 if (ImGui::BeginTabItem("Generate"))
                 {
-                    if (ImGui::Button("Open Folder")) OpenFolder("Generate\\Models");
-                    char path[MAX_PATH];
-                    ExpandEnvironmentStringsA("%LOCALAPPDATA%\\KogamaStudio\\Generate\\Models", path, MAX_PATH);
-                    DisplayDirTree(path);
+                    if (ImGui::Button("Open Folder")) OpenFolder("Generate\\Models");  
+
+                    ImGui::Spacing();
+                    ImGui::Separator();
+                    ImGui::Spacing();
+
+                    // save section
+                    //ImGui::Text("Save Model");
+                    //static char modelName[256] = "";
+
+                    //ImGui::PushItemWidth(100);
+                    //ImGui::InputText("##modelName", modelName, sizeof(modelName));
+                    //ImGui::PopItemWidth();
+                    //typing3 = ImGui::IsItemActive();
+
+
+                    //ImGui::SameLine();
+                    //if (ImGui::Button("Save")) {
+                    //    std::string cmd = std::string("save_model|") + modelName;
+                    //    SendCommand(cmd.c_str());
+                    //}
+
+                    //ImGui::Spacing();
+                    //ImGui::Separator();
+                    //ImGui::Spacing();
+
+                    // load, process section
+                    //ImGui::Text("Load Model");
+                    if (pipe::generateProgress == 1.0f || pipe::generateProgress == 0.0f) {
+                        // showing available models
+                        char path[MAX_PATH];
+                        ExpandEnvironmentStringsA("%LOCALAPPDATA%\\KogamaStudio\\Generate\\Models", path, MAX_PATH);
+                        DisplayDirTree(path);
+                    }
+                    else
+                    {
+                        ImGui::Text("Progress");
+                        ImGui::SameLine();
+
+                        ImGui::ProgressBar(pipe::generateProgress, ImVec2(-100, 0));
+                        ImGui::SameLine();
+                        if (ImGui::Button("Cancel")) {
+                            SendCommand("generate_cancel");
+                            pipe::generateProgress = 0.0f;
+                        }
+                    }
+
                     ImGui::EndTabItem();
                 }
 

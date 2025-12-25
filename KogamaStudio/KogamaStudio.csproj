@@ -25,6 +25,9 @@
       <HintPath>..\..\..\..\AppData\Local\KogamaLauncher-WWW\Launcher\Standalone\MelonLoader\Il2CppAssemblies\Il2Cppmscorlib.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Il2CppMVCommon">
+      <HintPath>..\..\..\..\AppData\Local\KogamaLauncher-WWW\Launcher\Standalone\MelonLoader\Il2CppAssemblies\Il2CppMVCommon.dll</HintPath>
+    </Reference>
     <Reference Include="Il2CppMVWorldObject">
       <HintPath>..\..\..\..\AppData\Local\KogamaLauncher-WWW\Launcher\Standalone\MelonLoader\Il2CppAssemblies\Il2CppMVWorldObject.dll</HintPath>
       <Private>False</Private>
