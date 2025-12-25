@@ -2,8 +2,9 @@
 using UnityEngine;
 using Il2Cpp;
 using UnityEngine.Windows;
+using KogamaStudio.Tools;
 
-[assembly: MelonInfo(typeof(KogamaStudio.Main), "KogamaStudio", "0.2.0-dev", "Amuarte")]
+[assembly: MelonInfo(typeof(KogamaStudio.Main), "KogamaStudio", "0.2.0", "Amuarte")]
 [assembly: MelonGame("Multiverse ApS", "KoGaMa")]
 
 namespace KogamaStudio

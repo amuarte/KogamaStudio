@@ -7,10 +7,10 @@
   "targets": {
     ".NETCoreApp,Version=v6.0": {},
     ".NETCoreApp,Version=v6.0/win-x64": {
-      "MelonLoader.NativeHost/0.7.2.2367": {
+      "MelonLoader.NativeHost/0.7.2.2385": {
         "dependencies": {
           "LavaGang.MelonLoader": "0.7.2",
-          "MelonLoader": "0.7.2.2367"
+          "MelonLoader": "0.7.2.2385"
         },
         "runtime": {
           "MelonLoader.NativeHost.dll": {}
@@ -19,16 +19,16 @@
       "LavaGang.MelonLoader/0.7.2": {
         "runtime": {
           "MelonLoader.dll": {
-            "assemblyVersion": "0.7.2.2367",
-            "fileVersion": "0.7.2.2367"
+            "assemblyVersion": "0.7.2.2385",
+            "fileVersion": "0.7.2.2385"
           }
         }
       },
-      "MelonLoader/0.7.2.2367": {
+      "MelonLoader/0.7.2.2385": {
         "runtime": {
           "MelonLoader.dll": {
-            "assemblyVersion": "0.7.2.2367",
-            "fileVersion": "0.7.2.2367"
+            "assemblyVersion": "0.7.2.2385",
+            "fileVersion": "0.7.2.2385"
           }
         }
       },
@@ -219,7 +219,7 @@
     }
   },
   "libraries": {
-    "MelonLoader.NativeHost/0.7.2.2367": {
+    "MelonLoader.NativeHost/0.7.2.2385": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
@@ -229,7 +229,7 @@
       "serviceable": false,
       "sha512": ""
     },
-    "MelonLoader/0.7.2.2367": {
+    "MelonLoader/0.7.2.2385": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""

@@ -22,8 +22,6 @@ namespace KogamaStudio.ResourcePacks.Materials
 
             if (defaultMaterials != null) return;
 
-            MelonLogger.Msg(new System.Diagnostics.StackTrace());
-
             defaultMaterials = texture;
         }
     }

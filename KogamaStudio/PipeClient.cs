@@ -18,7 +18,7 @@ namespace KogamaStudio
                 {
                     using (var pipeClient = new NamedPipeClientStream(".", "KogamaStudio_CSharp", PipeDirection.Out))
                     {
-                        pipeClient.Connect(500);
+                        pipeClient.Connect(5000);
                         using (var writer = new StreamWriter(pipeClient))
                         {
                             writer.Write(cmd);

@@ -9,6 +9,7 @@ using MelonLoader;
 using System.IO.Pipes;
 using System.Runtime.InteropServices;
 using UnityEngine;
+using System.Collections;
 
 
 namespace KogamaStudio
@@ -77,6 +78,9 @@ namespace KogamaStudio
                             .ToList();
 
                         MaterialsLoader.LoadTexture(files);
+
+                        MelonLogger.Msg("[CommandHandler] test");
+
                         break;
 
                     case "resourcepacks_reset":
@@ -112,8 +116,18 @@ namespace KogamaStudio
                         RotationStep.Step = float.Parse(param);
                         break;
                     case "generate_model":
-                        var cubes = ModelLoader.LoadModel(param);
-                        if (cubes != null) MelonCoroutines.Start(ModelBuilder.Build(cubes));
+                        if (!ModelBuilder.IsBuilding)
+                        {
+                            var cubes = ModelLoader.LoadModel(param);
+                            if (cubes != null) 
+                            { 
+                                MelonCoroutines.Start(ModelBuilder.Build(cubes)); 
+                            }
+                        }
+                        break;
+                    case "generate_cancel":
+                        
+                        ModelBuilder.CancelGeneration = true;
                         break;
 
                     default:

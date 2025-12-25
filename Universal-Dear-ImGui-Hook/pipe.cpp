@@ -10,6 +10,7 @@ namespace pipe {
     bool cursorVisible = false;
     bool gameInitialized = false;
     bool openMenu = false;
+    float generateProgress = 0.0f;
 
     void ProcessCommand(const std::string& cmd)
     {
@@ -35,6 +36,7 @@ namespace pipe {
         else if (command == "game_initialized")
         {
             menu::isOpen = true;
+            gameInitialized = true;
         }
         else if (command == "key_down")
         {
@@ -42,6 +44,11 @@ namespace pipe {
             {
                 openMenu = !openMenu;
             }
+        }
+        else if (command == "generate_progress")
+        {
+            float progress = std::stof(param);
+            generateProgress = progress;
         }
     }
 
