@@ -16,10 +16,13 @@
 # Mono auto generated files
 mono_crash.*
 
+!TranslateAPI/TranslateAPI.AppHost/bin/Release/net8.0/**/*.dll
+!TranslateAPI/TranslateAPI.AppHost/bin/Release/net8.0/**/*.exe
+!TranslateAPI/TranslateAPI.AppHost/bin/
+
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/
-[Rr]elease/
 [Rr]eleases/
 x64/
 x86/
@@ -361,6 +364,3 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
-
-!TranslateAPI/TranslateAPI.AppHost/bin/Release/net8.0/**/*.dll
-!TranslateAPI/TranslateAPI.AppHost/bin/Release/net8.0/**/*.exe
