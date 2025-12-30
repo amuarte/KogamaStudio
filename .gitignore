@@ -361,3 +361,6 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+!TranslateAPI/TranslateAPI.AppHost/bin/Release/net8.0/**/*.dll
+!TranslateAPI/TranslateAPI.AppHost/bin/Release/net8.0/**/*.exe
