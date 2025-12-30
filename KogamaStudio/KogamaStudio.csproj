@@ -9,6 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="ImGui.NET" Version="1.91.6.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="0Harmony">
       <HintPath>..\..\..\..\AppData\Local\KogamaLauncher-WWW\Launcher\Standalone\MelonLoader\net6\0Harmony.dll</HintPath>
       <Private>False</Private>
@@ -35,6 +39,9 @@
     <Reference Include="Il2CppSystem">
       <HintPath>..\..\..\..\AppData\Local\KogamaLauncher-WWW\Launcher\Standalone\MelonLoader\Il2CppAssemblies\Il2CppSystem.dll</HintPath>
       <Private>False</Private>
+    </Reference>
+    <Reference Include="Il2CppSystem.Core">
+      <HintPath>..\..\..\..\AppData\Local\KogamaLauncher-WWW\Launcher\Standalone\MelonLoader\Il2CppAssemblies\Il2CppSystem.Core.dll</HintPath>
     </Reference>
     <Reference Include="MelonLoader">
       <HintPath>..\..\..\..\AppData\Local\KogamaLauncher-WWW\Launcher\Standalone\MelonLoader\net6\MelonLoader.dll</HintPath>

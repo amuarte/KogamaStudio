@@ -10,4 +10,4 @@ struct Pack {
 
 
 std::vector<Pack> LoadPacks();
-
+ImTextureID LoadTextureFromFile(const char* path);

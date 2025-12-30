@@ -99,6 +99,18 @@
     <ClCompile Include="MenuHelpers.cpp">
       <Filter>Sources Files\menu</Filter>
     </ClCompile>
+    <ClCompile Include="Tools.cpp">
+      <Filter>Sources Files\menu</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourcePacks.cpp">
+      <Filter>Sources Files\menu</Filter>
+    </ClCompile>
+    <ClCompile Include="Generate.cpp">
+      <Filter>Sources Files\menu</Filter>
+    </ClCompile>
+    <ClCompile Include="About.cpp">
+      <Filter>Sources Files\menu</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="imgui\imconfig.h">
@@ -153,6 +165,18 @@
       <Filter>Sources Files</Filter>
     </ClInclude>
     <ClInclude Include="MenuHelpers.h">
+      <Filter>Sources Files\menu</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools.h">
+      <Filter>Sources Files\menu</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourcePacks.h">
+      <Filter>Sources Files\menu</Filter>
+    </ClInclude>
+    <ClInclude Include="Generate.h">
+      <Filter>Sources Files\menu</Filter>
+    </ClInclude>
+    <ClInclude Include="About.h">
       <Filter>Sources Files\menu</Filter>
     </ClInclude>
   </ItemGroup>
