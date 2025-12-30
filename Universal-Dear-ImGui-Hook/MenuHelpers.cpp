@@ -5,6 +5,8 @@
 
 namespace menu {
 
+    bool typing = false;
+
     void SendCommand(const char* cmd)
     {
         HANDLE hPipe = CreateFileA(

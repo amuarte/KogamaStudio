@@ -128,11 +128,13 @@
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="About.cpp" />
     <ClCompile Include="d3d9hook.cpp" />
     <ClCompile Include="d3d10hook.cpp" />
     <ClCompile Include="d3d11hook.cpp" />
     <ClCompile Include="d3d12hook.cpp" />
     <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="Generate.cpp" />
     <ClCompile Include="globals.cpp" />
     <ClCompile Include="hooks.cpp" />
     <ClCompile Include="imgui\imgui.cpp" />
@@ -153,11 +155,15 @@
     <ClCompile Include="pipe.cpp" />
     <ClCompile Include="ResourcePackLoader.cpp" />
     <ClCompile Include="ResourcePackLoader.h" />
+    <ClCompile Include="ResourcePacks.cpp" />
+    <ClCompile Include="Tools.cpp" />
     <ClCompile Include="vulkanhook.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\Downloads\json.hpp" />
     <ClInclude Include="..\..\..\..\Downloads\stb_image.h" />
+    <ClInclude Include="About.h" />
+    <ClInclude Include="Generate.h" />
     <ClInclude Include="imgui\imconfig.h" />
     <ClInclude Include="imgui\imgui.h" />
     <ClInclude Include="imgui\imgui_impl_dx9.h" />
@@ -173,7 +179,9 @@
     <ClInclude Include="MenuHelpers.h" />
     <ClInclude Include="namespaces.h" />
     <ClInclude Include="pipe.h" />
+    <ClInclude Include="ResourcePacks.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="Tools.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui\.editorconfig" />
