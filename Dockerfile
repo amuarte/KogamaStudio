@@ -1,10 +1,5 @@
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
-WORKDIR /app
-COPY . .
-RUN dotnet publish TranslateAPI/TranslateAPI.AppHost/TranslateAPI.AppHost.csproj -c Release -o out
-
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /app
-COPY --from=build /app/out .
+COPY TranslateAPI/TranslateAPI.AppHost/bin/Release/net8.0/publish/ .
 EXPOSE 5000
-CMD ["dotnet", "TranslateAPI.AppHost.dll"]
+ENTRYPOINT ["dotnet", "TranslateAPI.AppHost.dll"]
