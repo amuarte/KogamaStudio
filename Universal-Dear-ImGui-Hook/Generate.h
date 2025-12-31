@@ -2,5 +2,6 @@
 #include "stdafx.h"
 
 namespace Generate {
+
 	void Render();
 }

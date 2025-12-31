@@ -176,6 +176,10 @@ namespace KogamaStudio
                         
                         ModelBuilder.CancelGeneration = true;
                         break;
+                    case "generate_save_model_to_file":
+
+                        break;
+
                     case "objects_wo_id":
                         targetWoId = int.Parse(param);
                         break;
@@ -191,6 +195,7 @@ namespace KogamaStudio
                     case "objects_visible":
                         break; 
                     case "test":
+                        MessageTranslator.Translate("hello world!");
                         break;
 
                     default:
