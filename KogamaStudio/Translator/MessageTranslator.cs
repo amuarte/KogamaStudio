@@ -1,32 +1,35 @@
-﻿using Il2CppSystem.Runtime.CompilerServices;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.NetworkInformation;
+﻿using System;
+using System.Net.Http;
 using System.Text;
-using System.Threading.Tasks;
+using Newtonsoft.Json;
+using System.Threading;
 
 namespace KogamaStudio.Translator
 {
     internal class MessageTranslator
     {
-        public static async Task<string> Translate(string text)
-        {
-            return await TranslateMessage(text);
-        }
+        private static HttpClient client = new HttpClient();
+        public static string TargetLanguage = "en";
 
-        private static async Task<string> TranslateMessage(string text)
+        public static string LastTranslation = "";
+        public static bool TranslationReady = false;
+
+        public static void Translate(string text, string targetLang = null)
         {
-            using (var client = new System.Net.Http.HttpClient())
+            if (targetLang == null) targetLang = TargetLanguage;
+
+            new Thread(() =>
             {
-                var url = $"https://api.mymemory.translated.net/get?q={Uri.EscapeDataString(text)}&langpair=en|pl";
-                var response = await client.GetAsync(url);
-                var json = await response.Content.ReadAsStringAsync();
-
-                // Parse JSON
-                dynamic data = Newtonsoft.Json.JsonConvert.DeserializeObject(json);
-                return data.responseData.translatedText;
-            }
+                try
+                {
+                    var res = client.PostAsync("https://kogamastudio-production.up.railway.app/translate/translate",
+                        new StringContent(JsonConvert.SerializeObject(new { text, targetLanguage = targetLang }), Encoding.UTF8, "application/json")).Result;
+                    dynamic data = JsonConvert.DeserializeObject(res.Content.ReadAsStringAsync().Result);
+                    LastTranslation = data.translatedText.ToString();
+                    TranslationReady = true;
+                }
+                catch { }
+            }).Start();
         }
     }
 }

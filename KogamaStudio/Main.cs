@@ -4,6 +4,7 @@ using Il2Cpp;
 using ImGuiNET;
 using UnityEngine.Windows;
 using KogamaStudio.Tools;
+using KogamaStudio.Translator;
 
 [assembly: MelonInfo(typeof(KogamaStudio.Main), "KogamaStudio", "0.3.0-dev", "Amuarte")]
 [assembly: MelonGame("Multiverse ApS", "KoGaMa")]
@@ -52,6 +53,11 @@ namespace KogamaStudio
             if (UnityEngine.Input.GetKeyDown(KeyCode.F2))
             {
                 PipeClient.SendCommand("key_down|F2");
+            }
+
+            if (MessageTranslator.TranslationReady)
+            {
+                AddLinePatch.SendMessageControlInstance.SendChatMessage(MessageTranslator.LastTranslation);
             }
         }
     }

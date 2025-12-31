@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using HarmonyLib;
@@ -38,18 +39,21 @@ namespace KogamaStudio.Translator
 
         [HarmonyPatch(typeof(SendMessageControl), "SendChatMessage")]
         [HarmonyPrefix]
-        private static bool SendMessagePrefix(ref string chatMsg)
+        private static bool SendMessagePrefix(SendMessageControl __instance, ref string chatMsg)
         {
-            try
+            // If translation is ready, send the translated message
+            if (MessageTranslator.TranslationReady)
             {
-                chatMsg = MessageTranslator.Translate(chatMsg).Result;
+                MessageTranslator.TranslationReady = false;
                 return true;
             }
-            catch (System.Exception e)
-            {
-                MelonLogger.Error($"Translation failed: {e}");
-                return true;
-            }
+
+            // Otherwise block send and translate in background
+            SendMessageControlInstance = __instance;
+            MessageTranslator.Translate(chatMsg);
+            chatMsg = "";
+            return true;
         }
+
     }
 }

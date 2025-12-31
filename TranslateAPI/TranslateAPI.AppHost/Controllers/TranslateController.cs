@@ -16,6 +16,7 @@ namespace TranslateAPI.AppHost.Controllers
         public class TranslateRequest
         {
             public string text { get; set; }
+            public string targetLanguage { get; set; } = "en";
         }
 
         [HttpPost("translate")]
@@ -23,7 +24,7 @@ namespace TranslateAPI.AppHost.Controllers
         {
             var apiKey = Environment.GetEnvironmentVariable("GOOGLE_API_KEY");
             var client = TranslationClient.CreateFromApiKey(apiKey);
-            var result = await client.TranslateTextAsync(req.text, "pl");
+            var result = await client.TranslateTextAsync(req.text, req.targetLanguage);
             return Ok(new { translatedText = result.TranslatedText });
         }
     }
