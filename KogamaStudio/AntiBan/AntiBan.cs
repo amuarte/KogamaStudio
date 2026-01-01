@@ -4,7 +4,7 @@ using MelonLoader;
 using MV.Common;
 using System.Diagnostics;
 
-namespace KogamaStudio;
+namespace KogamaStudio.AntiBan;
 
 [HarmonyPatch]
 internal static class AntiBan

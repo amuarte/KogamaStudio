@@ -9,6 +9,7 @@
 #include "ResourcePacks.h"
 #include "Generate.h"
 #include "About.h"
+#include "Translate.h"
 
 namespace menu {
     bool isOpen = false;
@@ -96,6 +97,12 @@ namespace menu {
                 if (ImGui::BeginTabItem("Generate"))
                 {
                     Generate::Render();
+                    ImGui::EndTabItem();
+                }
+
+                if (ImGui::BeginTabItem("Translate"))
+                {
+                    Translate::Render();
                     ImGui::EndTabItem();
                 }
 

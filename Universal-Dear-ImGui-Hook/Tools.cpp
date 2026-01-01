@@ -15,9 +15,13 @@ namespace Tools {
     static float CustomRotStepValue = 15.0f;
     static bool CustomSpeedEnabled = false;
     static float CustomSpeedValue = 2.0f;
+    static bool UnlimitedConfigEnabled = false;
+    static float UnlimitedConfigMin = 0.0f;
+    static float UnlimitedConfigMax = 1.0f;
     static int WOId = -1;
     static float ObjectsRotation[3] = {0.0f, 0.0f, 0.0f};
     static char PlayerName[64] = "";
+
 
 
     void Render(){
@@ -86,6 +90,30 @@ namespace Tools {
 
             if (ImGui::IsItemEdited()) {
                 SendCommand(("option_custom_rot_step_size|" + std::to_string(CustomRotStepValue)).c_str());
+            }
+        }
+
+        // unlimited config
+        if (ImGui::Checkbox("Unlimited Config", &UnlimitedConfigEnabled)) {
+            if (UnlimitedConfigEnabled) SendCommand("option_unlimited_config_enabled|true");
+            else SendCommand("option_unlimited_config_enabled|false");
+        }
+
+        if (UnlimitedConfigEnabled) {
+            ImGui::PushItemWidth(100);
+            ImGui::InputFloat("Min##unlimited", &UnlimitedConfigMin);
+            ImGui::PopItemWidth();
+            if (!typing) typing = ImGui::IsItemActive();
+            if (ImGui::IsItemEdited()) {
+                SendCommand(("option_unlimited_config_min|" + std::to_string(UnlimitedConfigMin)).c_str());
+            }
+
+            ImGui::PushItemWidth(100);
+            ImGui::InputFloat("Max##unlimited", &UnlimitedConfigMax);
+            ImGui::PopItemWidth();
+            if (!typing) typing = ImGui::IsItemActive();
+            if (ImGui::IsItemEdited()) {
+                SendCommand(("option_unlimited_config_max|" + std::to_string(UnlimitedConfigMax)).c_str());
             }
         }
 
