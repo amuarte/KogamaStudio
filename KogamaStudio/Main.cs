@@ -1,7 +1,6 @@
 ﻿using MelonLoader;
 using UnityEngine;
 using Il2Cpp;
-using ImGuiNET;
 using UnityEngine.Windows;
 using KogamaStudio.Tools;
 using KogamaStudio.Translator;
@@ -55,9 +54,13 @@ namespace KogamaStudio
                 PipeClient.SendCommand("key_down|F2");
             }
 
-            if (MessageTranslator.TranslationReady)
+            if (MessageTranslator.Instance.TranslationReady)
             {
-                AddLinePatch.SendMessageControlInstance.SendChatMessage(MessageTranslator.LastTranslation);
+                if (AddLinePatch.CurrentTranslationMode == AddLinePatch.MessageTranslationType.OwnMessages)
+                {
+                    AddLinePatch.SendMessageControlInstance.SendChatMessage(MessageTranslator.Instance.LastTranslation);
+                }
+                AddLinePatch.CurrentTranslationMode = AddLinePatch.MessageTranslationType.None;
             }
         }
     }

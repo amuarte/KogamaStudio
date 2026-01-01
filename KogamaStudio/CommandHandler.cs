@@ -12,11 +12,14 @@ using UnityEngine;
 using Il2CppSystem.Collections.Generic;
 using KogamaStudio.Objects;
 using KogamaStudio.Translator;
+using Il2CppAssets.Scripts.WorldObjectTypes.MVTextMsg;
 
 namespace KogamaStudio
 {
     public class CommandHandler
     {
+        private static System.Collections.Generic.Dictionary<int, string> _originalTexts = new System.Collections.Generic.Dictionary<int, string>();
+
         private static void HandleCloneObject(int id)
         {
             var wo = MVGameControllerBase.WOCM?.GetWorldObjectClient(id);
@@ -35,6 +38,137 @@ namespace KogamaStudio
                 string message = $"Removed {id}";
                 MelonLogger.Msg(message);
                 TextCommand.NotifyUser(message);
+            }
+        }
+
+        private static string HandleGetText(int id)
+        {
+            var wo = MVGameControllerBase.WOCM?.GetWorldObjectClient(id);
+            if (wo == null) return null;
+
+            var data = wo.GetType().GetProperty("Data")?.GetValue(wo) as Il2CppSystem.Collections.Generic.Dictionary<Il2CppSystem.Object, Il2CppSystem.Object>;
+            if (data == null) return null;
+
+            foreach (var kvp in data)
+            {
+                var valuePtr = Il2CppInterop.Runtime.IL2CPP.Il2CppObjectBaseToPtr(kvp.Value);
+                return Il2CppInterop.Runtime.IL2CPP.Il2CppStringToManaged(valuePtr);
+            }
+
+            return null;
+        }
+
+        private static void HandleSetText(int id, string value)
+        {
+            var wo = MVGameControllerBase.WOCM?.GetWorldObjectClient(id);
+            if (wo == null) return;
+
+            var textMsg = wo.Cast<MVTextMsg>();
+            if (textMsg?.msgObject == null) return;
+
+            var textMesh = textMsg.msgObject.GetType().GetProperty("TextMesh")?.GetValue(textMsg.msgObject);
+            if (textMesh == null) return;
+
+            textMesh.GetType().GetProperty("text")?.SetValue(textMesh, value);
+        }
+
+        private static void HandleBackupTextCubes()
+        {
+            _originalTexts.Clear();
+
+            Il2CppSystem.Collections.Generic.HashSet<int> ids =
+                new Il2CppSystem.Collections.Generic.HashSet<int>();
+            MVGameControllerBase.WOCM.GetAllWoIds(75578, ids);
+
+            foreach (int id in ids)
+            {
+                var wo = MVGameControllerBase.WOCM?.GetWorldObjectClient(id);
+                if (wo != null && $"{wo.type}".Contains("TextMsg"))
+                {
+                    var text = HandleGetText(id);
+                    if (!string.IsNullOrEmpty(text))
+                    {
+                        _originalTexts[id] = text;
+                    }
+                }
+            }
+        }
+
+        private static void HandleRestoreTextCubes()
+        {
+            foreach (var kvp in _originalTexts)
+            {
+                HandleSetText(kvp.Key, kvp.Value);
+            }
+        }
+
+        private static System.Collections.Generic.Queue<(int id, string text)> _translateQueue =
+    new System.Collections.Generic.Queue<(int id, string text)>();
+
+        private static void HandleTranslateTextCubes(string targetLanguage)
+        {
+            if (_originalTexts.Count == 0)
+            {
+                return;
+            }
+
+            _translateQueue.Clear();
+            foreach (var kvp in _originalTexts)
+            {
+                _translateQueue.Enqueue((kvp.Key, kvp.Value));
+                HandleSetText(kvp.Key, "Queued...");
+            }
+
+            MelonCoroutines.Start(ProcessTranslateQueue(targetLanguage));
+        }
+
+        private static System.Collections.IEnumerator ProcessTranslateQueue(string lang)
+        {
+            while (_translateQueue.Count > 0)
+            {
+                var item = _translateQueue.Dequeue();
+                int id = item.id;
+                string text = item.text;
+
+                HandleSetText(id, "Translating...");
+
+                MessageTranslator.Instance.TranslationReady = false;
+                MessageTranslator.Instance.Translate(text, lang);
+
+                int wait = 0;
+                while (!MessageTranslator.Instance.TranslationReady && wait < 50)
+                {
+                    yield return new WaitForSeconds(0.1f);
+                    wait++;
+                }
+
+                if (MessageTranslator.Instance.TranslationReady)
+                {
+                    HandleSetText(id, MessageTranslator.Instance.LastTranslation);
+                    MessageTranslator.Instance.TranslationReady = false;
+                }
+
+                yield return new WaitForSeconds(0.5f);
+            }
+
+            TextCommand.NotifyUser("Translation complete");
+        }
+
+        private static System.Collections.IEnumerator TranslateAndSetAsync(int id, string text, string lang)
+        {
+            MessageTranslator.Instance.Translate(text, lang);
+
+            int wait = 0;
+            while (!MessageTranslator.Instance.TranslationReady && wait < 50)
+            {
+                yield return new WaitForSeconds(0.1f);
+                wait++;
+            }
+
+            if (MessageTranslator.Instance.TranslationReady)
+            {
+                HandleSetText(id, MessageTranslator.Instance.LastTranslation);
+                MessageTranslator.Instance.TranslationReady = false;
             }
         }
 
@@ -162,6 +296,19 @@ namespace KogamaStudio
                     case "option_custom_speed_value":
                         EditModeSpeed.Multiplier = float.Parse(param);
                         break;
+                    // UNLIMITED CONFIG
+                    case "option_unlimited_config_enabled":
+                        UnlimitedConfig.Enabled = param == "true";
+                        break;
+                    case "option_unlimited_config_min":
+                        UnlimitedConfig.MinValue = float.Parse(param);
+                        break;
+                    case "option_unlimited_config_max":
+                        UnlimitedConfig.MaxValue = float.Parse(param);
+                        break;
+            
+
+
                     case "generate_model":
                         if (!ModelBuilder.IsBuilding)
                         {
@@ -195,7 +342,37 @@ namespace KogamaStudio
                     case "objects_visible":
                         break; 
                     case "test":
-                        MessageTranslator.Translate("hello world!");
+                        HandleSetText(targetWoId, "hello world!");
+
+                        break;
+                    // TRANSLATOR
+                    // translate own messages
+                    case "translate_own_messages_enabled":
+                        AddLinePatch.TranslateOwnMessagesEnabled = param == "true";
+                        break;
+                    case "translate_own_messages_language":
+                        AddLinePatch.TranslateOwnMessagesLanguage = param;
+                        break;
+                    // translate text cubes
+                    case "translate_text_cubes_translate":
+                        HandleBackupTextCubes();
+                        HandleTranslateTextCubes(AddLinePatch.TranslateTextCubesLanguage);
+                        break;
+                    case "translate_text_cubes_language":
+                        AddLinePatch.TranslateTextCubesLanguage = param;
+                        break;
+                    case "translate_text_cubes_enabled":
+                        if (param == "true")
+                        {
+                            AddLinePatch.TranslateOtherMessagesEnabled = true;
+                            HandleBackupTextCubes();
+                        }
+                        else
+                        {
+                            AddLinePatch.TranslateOtherMessagesEnabled = false;
+                            HandleRestoreTextCubes();
+                        }
+
                         break;
 
                     default:

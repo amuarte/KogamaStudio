@@ -157,6 +157,7 @@
     <ClCompile Include="ResourcePackLoader.h" />
     <ClCompile Include="ResourcePacks.cpp" />
     <ClCompile Include="Tools.cpp" />
+    <ClCompile Include="Translate.cpp" />
     <ClCompile Include="vulkanhook.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -182,6 +183,7 @@
     <ClInclude Include="ResourcePacks.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Tools.h" />
+    <ClInclude Include="Translate.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui\.editorconfig" />
