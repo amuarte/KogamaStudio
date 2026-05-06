@@ -124,7 +124,7 @@ namespace Tools {
         if (UnlimitedConfigEnabled) {
             ImGui::PushItemWidth(100);
             ImGui::PushID(u8"unlimited_min");
-            ImGui::InputFloat(TR(u8"Min"), &UnlimitedConfigMin);
+            ImGui::DragFloat(TR(u8"Min"), &UnlimitedConfigMin, 0.1f, 0.0f, 0.0f, "%.3f");
             ImGui::PopID();
             ImGui::PopItemWidth();
             if (!typing) typing = ImGui::IsItemActive();
@@ -134,7 +134,7 @@ namespace Tools {
 
             ImGui::PushItemWidth(100);
             ImGui::PushID(u8"unlimited_max");
-            ImGui::InputFloat(TR(u8"Max"), &UnlimitedConfigMax);
+            ImGui::DragFloat(TR(u8"Max"), &UnlimitedConfigMax, 0.1f, 0.0f, 0.0f, "%.3f");
             ImGui::PopID();
             ImGui::PopItemWidth();
             if (!typing) typing = ImGui::IsItemActive();
