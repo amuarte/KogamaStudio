@@ -46,6 +46,9 @@ internal static class GameInfo
 
     private static void UpdateMetrics()
     {
+        if (MVGameControllerBase.WOCM == null || MVGameControllerBase.Game == null)
+            return;
+
         WorldObjectCount = MVGameControllerBase.WOCM.worldObjects.Count;
         LogicObjectCount = GetLogicObjectCount();
         LinkCount = MVGameControllerBase.Game.worldNetwork.links.links.Count;
@@ -55,12 +58,17 @@ internal static class GameInfo
         Ping = MVGameControllerBase.Game.Peer.RoundTripTime;
         Fps = 1 / Time.smoothDeltaTime;
 
-        var players = MVGameControllerBase.Game?.playerContainer?.players;
-        PlayerCount = players?.Count ?? 0;
+        var playerContainer = MVGameControllerBase.Game.playerContainer;
+        var players = playerContainer != null ? playerContainer.players : null;
+        PlayerCount = players != null ? players.Count : 0;
 
-        var localWoId = MVGameControllerBase.LocalPlayer?.WoId ?? -1;
+        var localPlayer = MVGameControllerBase.LocalPlayer;
+        var localWoId = localPlayer != null ? localPlayer.WoId : -1;
         if (players != null && localWoId != -1 && players.ContainsKey(localWoId))
-            LocalPlayerName = players[localWoId]?.UserProfileData?.UserName ?? "";
+        {
+            var p = players[localWoId];
+            LocalPlayerName = (p != null && p.UserProfileData != null) ? p.UserProfileData.UserName : "";
+        }
 
         try
         {

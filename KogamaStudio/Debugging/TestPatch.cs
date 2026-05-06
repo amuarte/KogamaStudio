@@ -1,31 +1,69 @@
 using HarmonyLib;
+using Il2Cpp;
+using Il2CppSystem.Collections.Generic;
+using MV.Common;
 
-namespace KogamaStudio;
+namespace KogamaStudio.Debugging;
 
 [HarmonyPatch]
-internal static class SpawnRoleDebug
+public class CreateAndEquipPatch
 {
-    [HarmonyPatch(typeof(MVNetworkGame.OperationRequests), nameof(MVNetworkGame.OperationRequests.SetSpawnRoleBody))]
+    [HarmonyPatch(typeof(MVPickupOwner), nameof(MVPickupOwner.CreateAndEquipNewItem))]
     [HarmonyPrefix]
-    private static void SetSpawnRoleBody_Prefix(int avatarCreatorWoId, int avatarBodyDbId)
+    static void Prefix(
+        MVPickupOwner __instance,
+        Il2CppSystem.Collections.Generic.Dictionary<Il2CppSystem.Object, Il2CppSystem.Object> newState)
     {
-        KogamaStudio.Log.LogInfo($"[SpawnRole] SetSpawnRoleBody -> creatorWoId: {avatarCreatorWoId}, bodyDbId: {avatarBodyDbId}");
+        if (newState == null)
+        {
+            KogamaStudio.Log.LogInfo("[EquipPatch] newState == null");
+            return;
+        }
+
+        KogamaStudio.Log.LogInfo($"[EquipPatch] wywołane na: {__instance?.name}");
+
+        foreach (var kvp in newState)
+        {
+            string key = kvp.Key?.ToString() ?? "null";
+            string value;
+
+            try
+            {
+                value = kvp.Value.Unbox<int>().ToString();
+            }
+            catch
+            {
+                try
+                {
+                    value = Il2CppSystem.Convert.ToInt32(kvp.Value).ToString();
+                }
+                catch
+                {
+                    value = kvp.Value?.ToString() ?? "null";
+                }
+            }
+
+            KogamaStudio.Log.LogInfo($"[EquipPatch]   [{key}] = {value}");
+        }
     }
 
-    [HarmonyPatch(typeof(MVAvatarSpawnRoleCreator), nameof(MVAvatarSpawnRoleCreator.UpdateAvatarBody))]
-    [HarmonyPrefix]
-    private static void UpdateAvatarBody_Prefix(object[] __args)
+    public static void GiveItem(MVPickupOwner owner, AvatarItemType itemType, int variantId = 0)
     {
-        try
-        {
-            if (__args == null || __args.Length < 1) return;
-            var data = __args[0] as dynamic;
-            if (data == null) return;
-            KogamaStudio.Log.LogInfo($"[SpawnRole] UpdateAvatarBody <- deletedBody: {data.deletedBodyWoId}, addedBody: {data.addedBodyWoId}, deletedProto: {data.deletedProtoBodyWoId}, addedProto: {data.addedProtoBodyWoId}, creatorWoId: {data.spawnRoleCreatorWoId}");
-        }
-        catch (System.Exception ex)
-        {
-            KogamaStudio.Log.LogWarning($"[SpawnRole] UpdateAvatarBody log failed: {ex.Message}");
-        }
+        var state = new Il2CppSystem.Collections.Generic.Dictionary<Il2CppSystem.Object, Il2CppSystem.Object>();
+
+        state.Add("type", (int)itemType);
+        state.Add("variantId", variantId);
+        state.Add("updateItemState", 4);
+        owner.CreateAndEquipNewItem(state);
+    }
+
+    public static MVPickupOwner GetLocalPickupOwner()
+    {
+        var woid = MVGameControllerBase.LocalPlayer.WoId;
+        var woc = MVGameControllerBase.WOCM.GetWorldObjectClient(woid);
+
+        if (woc == null) return null;
+
+        return woc.gameObject?.GetComponent<MVPickupOwner>();
     }
 }

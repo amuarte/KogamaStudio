@@ -38,7 +38,7 @@ internal static class ExplorerManager
         catch { return new(); }
     }
 
-    private static int RootGroupId => MVGameControllerBase.WOCM?.RootGroup?.Id ?? -1;
+    private static int RootGroupId => (MVGameControllerBase.WOCM != null && MVGameControllerBase.WOCM.RootGroup != null) ? MVGameControllerBase.WOCM.RootGroup.Id : -1;
 
     private static void Write(int planetID, List<ObjectEntry> list)
     {

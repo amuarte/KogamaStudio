@@ -27,6 +27,7 @@ using System.IO.Pipes;
 using System.Runtime.InteropServices;
 using UnityEngine;
 using MV.Common;
+using KogamaStudio.Debugging;
 
 
 namespace KogamaStudio;
@@ -154,7 +155,7 @@ new System.Collections.Generic.Queue<(int id, string text)>();
         KogamaStudioBehaviour.StartCo(ExecuteCommand(command, param));
     }
 
-    public static int RootGroupId => MVGameControllerBase.WOCM?.RootGroup?.Id ?? -1;
+    public static int RootGroupId => (MVGameControllerBase.WOCM != null && MVGameControllerBase.WOCM.RootGroup != null) ? MVGameControllerBase.WOCM.RootGroup.Id : -1;
 
     private static UnityEngine.GameObject _savedFocus = null;
 
@@ -385,38 +386,38 @@ new System.Collections.Generic.Queue<(int id, string text)>();
                     CustomGrid.Enabled = param == "true";
                     break;
                 case "option_custom_grid_size":
-                    CustomGrid.GridSize = float.Parse(param);
+                    CustomGrid.GridSize = float.Parse(param, System.Globalization.CultureInfo.InvariantCulture);
                     break;
                 // ROTATION STEP
                 case "option_custom_rot_step_enabled":
                     RotationStep.Enabled = param == "true";
                     break;
                 case "option_custom_rot_step_size":
-                    RotationStep.Step = float.Parse(param);
+                    RotationStep.Step = float.Parse(param, System.Globalization.CultureInfo.InvariantCulture);
                     break;
                 // SPEED
                 case "option_custom_speed_enabled":
                     EditModeSpeed.MultiplierEnabled = param == "true";
                     break;
                 case "option_custom_speed_value":
-                    EditModeSpeed.Multiplier = float.Parse(param);
+                    EditModeSpeed.Multiplier = float.Parse(param, System.Globalization.CultureInfo.InvariantCulture);
                     break;
                 // UNLIMITED CONFIG
                 case "option_unlimited_config_enabled":
                     UnlimitedConfig.Enabled = param == "true";
                     break;
                 case "option_unlimited_config_min":
-                    UnlimitedConfig.MinValue = float.Parse(param);
+                    UnlimitedConfig.MinValue = float.Parse(param, System.Globalization.CultureInfo.InvariantCulture);
                     break;
                 case "option_unlimited_config_max":
-                    UnlimitedConfig.MaxValue = float.Parse(param);
+                    UnlimitedConfig.MaxValue = float.Parse(param, System.Globalization.CultureInfo.InvariantCulture);
                     break;
                 // CUSTOM MODEL SCALE
                 case "option_custom_model_scale_enabled":
                     CustomModelScale.Enabled = param == "true";
                     break;
                 case "option_custom_model_scale_value":
-                    CustomModelScale.Scale = float.Parse(param);
+                    CustomModelScale.Scale = float.Parse(param, System.Globalization.CultureInfo.InvariantCulture);
                     break;
 
                 case "generate_model":
@@ -952,6 +953,7 @@ new System.Collections.Generic.Queue<(int id, string text)>();
                     break;
                 }
                 case "test":
+                    TextCommand.NotifyUser("<color=#5b6773>██</color><color=#3e453c>██</color><color=#434f4e>██</color><color=#5f7082>██</color><color=#596b79>██</color><color=#586875>██</color><color=#495d68>██</color><color=#405663>██</color><color=#4c616c>██</color><color=#576971>██</color><color=#515e64>██</color><color=#394644>██</color><color=#545d63>██</color><color=#5e6871>██</color>\r\n<color=#364e58>██</color><color=#525e64>██</color><color=#4c5a5d>██</color><color=#48575d>██</color><color=#334b55>██</color><color=#384e59>██</color><color=#4b5f6a>██</color><color=#4d5c65>██</color><color=#455a64>██</color><color=#3d585f>██</color><color=#3b535d>██</color><color=#4d5d6a>██</color><color=#4e5f69>██</color><color=#485a66>██</color>\r\n<color=#2f464e>██</color><color=#334a4f>██</color><color=#505d65>██</color><color=#47545a>██</color><color=#5c6c73>██</color><color=#a09ea0>██</color><color=#ada496>██</color><color=#88786b>██</color><color=#77624f>██</color><color=#c8b39b>██</color><color=#696d68>██</color><color=#345057>██</color><color=#2f4750>██</color><color=#3c4f55>██</color>\r\n<color=#3b4f56>██</color><color=#3e525b>██</color><color=#41575f>██</color><color=#455962>██</color><color=#858281>██</color><color=#5a5552>██</color><color=#7e6d5e>██</color><color=#a58466>██</color><color=#efd1ac>██</color><color=#bc9e7b>██</color><color=#dfc09f>██</color><color=#6c6e68>██</color><color=#4a5f68>██</color><color=#3b525a>██</color>\r\n<color=#39545f>██</color><color=#324853>██</color><color=#29444d>██</color><color=#39575e>██</color><color=#7e7465>██</color><color=#727272>██</color><color=#856c55>██</color><color=#67543f>██</color><color=#ae8559>██</color><color=#896a4b>██</color><color=#b69471>██</color><color=#a98f74>██</color><color=#606d75>██</color><color=#5d6a72>██</color>\r\n<color=#4c5a65>██</color><color=#46535b>██</color><color=#5c6d75>██</color><color=#425967>██</color><color=#655d50>██</color><color=#615e59>██</color><color=#50402b>██</color><color=#312c25>██</color><color=#d7ab7e>██</color><color=#a57f52>██</color><color=#cbab82>██</color><color=#a58669>██</color><color=#4f616b>██</color><color=#4d5e68>██</color>\r\n<color=#51687a>██</color><color=#505f6f>██</color><color=#667476>██</color><color=#363d41>██</color><color=#686461>██</color><color=#958262>██</color><color=#c09860>██</color><color=#705328>██</color><color=#dbba87>██</color><color=#b5956b>██</color><color=#b2976e>██</color><color=#ccb195>██</color><color=#43565e>██</color><color=#60717a>██</color>\r\n<color=#52626f>██</color><color=#5a6979>██</color><color=#4b545f>██</color><color=#4e4546>██</color><color=#282018>██</color><color=#736853>██</color><color=#6f5a39>██</color><color=#a68e63>██</color><color=#a88a5d>██</color><color=#b89c74>██</color><color=#311e12>██</color><color=#7e6a5b>██</color><color=#5f6164>██</color><color=#434e50>██</color>\r\n<color=#2d4551>██</color><color=#4c535a>██</color><color=#121b23>██</color><color=#332e2b>██</color><color=#3e332a>██</color><color=#6f5a47>██</color><color=#5b4d42>██</color><color=#6f5740>██</color><color=#231b10>██</color><color=#4b3726>██</color><color=#302116>██</color><color=#1b1515>██</color><color=#4a5e67>██</color><color=#4e6167>██</color>\r\n<color=#425563>██</color><color=#605f61>██</color><color=#444248>██</color><color=#231f1f>██</color><color=#45362e>██</color><color=#2a2112>██</color><color=#1f1611>██</color><color=#6b553d>██</color><color=#6d584a>██</color><color=#5c5449>██</color><color=#615f60>██</color><color=#585755>██</color><color=#3f5560>██</color><color=#435561>██</color>\r\n<color=#364c59>██</color><color=#3d423e>██</color><color=#312e2d>██</color><color=#1c1008>██</color><color=#1f150d>██</color><color=#191514>██</color><color=#19190f>██</color><color=#a48b65>██</color><color=#796c5b>██</color><color=#52443f>██</color><color=#201c14>██</color><color=#1c1714>██</color><color=#596b7a>██</color><color=#55606a>██</color>\r\n<color=#595764>██</color><color=#262628>██</color><color=#32322e>██</color><color=#2a2223>██</color><color=#5d5247>██</color><color=#362d28>██</color><color=#3e3321>██</color><color=#7b7462>██</color><color=#68645b>██</color><color=#696865>██</color><color=#403931>██</color><color=#1f1b1c>██</color><color=#35474a>██</color><color=#364953>██</color>\r\n<color=#3f3e42>██</color><color=#464d59>██</color><color=#1d242f>██</color><color=#373b45>██</color><color=#353438>██</color><color=#38383f>██</color><color=#4d4a47>██</color><color=#4f4847>██</color><color=#464446>██</color><color=#3b3a3c>██</color><color=#6b6761>██</color><color=#6d6565>██</color><color=#3e4748>██</color><color=#495c63>██</color>\r\n<color=#60768b>██</color><color=#62768f>██</color><color=#1f293b>██</color><color=#181c25>██</color><color=#1d1e1b>██</color><color=#353130>██</color><color=#141414>██</color><color=#302b29>██</color><color=#2a2829>██</color><color=#2e2c2f>██</color><color=#3b393c>██</color><color=#2a2d32>██</color><color=#1b1f1d>██</color><color=#505e5e>██</color>\r\n");
                     break;
 
                 default:

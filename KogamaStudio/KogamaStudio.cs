@@ -216,6 +216,9 @@ namespace KogamaStudio
                 }
                 AddLinePatch.CurrentTranslationMode = AddLinePatch.MessageTranslationType.None;
             }
+
+
+            Freecam.LateUpdate();
         }
 
         private static bool _wasZooming = false;
@@ -223,12 +226,8 @@ namespace KogamaStudio
 
         void LateUpdate()
         {
-            Freecam.ProcessInput();
-
             var mgr = MVGameControllerBase.MainCameraManager;
             if (mgr == null) return;
-
-            Freecam.Apply(mgr);
 
             float baseFov = FovModifier.Enabled ? FovModifier.Fov : 60f;
             if (ZoomModifier.Enabled)
