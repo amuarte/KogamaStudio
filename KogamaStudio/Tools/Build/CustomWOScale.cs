@@ -68,16 +68,27 @@ internal static class CustomWOScale
         if (group == null) return;
 
         scaledGroup = group;
+        scaledGroup.scale = Scale;
+        if (scaledGroup.transform != null)
+            scaledGroup.transform.localScale = Scale;
         waitingForGroup = false;
-        KogamaStudio.Log.LogInfo($"[CustomWOScale] Scaled group ready: {scaledGroup.id}");
+        KogamaStudio.Log.LogInfo($"[CustomWOScale] Scaled group ready: {scaledGroup.id}, scale applied: {Scale}");
     }
 
     [HarmonyPatch(typeof(MVNetworkGame.OperationRequests), "AddItemToWorld")]
     [HarmonyPrefix]
-    private static void AddItemToWorld(ref int groupId)
+    private static void AddItemToWorld(ref int groupId, ref Vector3 position)
     {
-        if (Enabled && scaledGroup != null)
-            groupId = scaledGroup.id;
+        if (!Enabled || scaledGroup == null) return;
+        groupId = scaledGroup.id;
+        // Position arrives in world space; convert to the scaled group's local space
+        // so the object appears where the cursor is, not Scale times further away.
+        var s = Scale;
+        var gp = scaledGroup.Position;
+        position = new Vector3(
+            (position.x - gp.x) / s.x,
+            (position.y - gp.y) / s.y,
+            (position.z - gp.z) / s.z);
     }
 
 }

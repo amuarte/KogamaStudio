@@ -119,7 +119,11 @@ namespace Properties {
                          objectType == "GameOptionsDataObject" ||
                          objectType == "GamePassProgressionDataObject");
                     if (protectedType) ImGui::BeginDisabled();
+                    ImGui::PushStyleColor(ImGuiCol_Button,        ImVec4(0.6f, 0.1f, 0.1f, 1.0f));
+                    ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.8f, 0.2f, 0.2f, 1.0f));
+                    ImGui::PushStyleColor(ImGuiCol_ButtonActive,  ImVec4(0.5f, 0.05f, 0.05f, 1.0f));
                     if (ImGui::Button(TR(u8"Remove"))) SendCommand(u8"properties_remove");
+                    ImGui::PopStyleColor(3);
                     if (protectedType) ImGui::EndDisabled();
                     ImGui::SameLine();
                     if (ImGui::Button(TR(u8"Teleport to"))) SendCommand((u8"recovery_teleport_to_object|" + targetObjectId).c_str());
@@ -132,7 +136,7 @@ namespace Properties {
                 {
                     auto DragPos = [&](const char* label, float& val) {
                         ImGui::PushItemWidth(-1);
-                        ImGui::DragFloat(label, &val, 0.1f, 0.0f, 0.0f, "%.2f");
+                        ImGui::DragFloat(label, &val, 0.1f, 0.0f, 0.0f, "%.3f");
                         ImGui::PopItemWidth();
                         if (!typing) typing = ImGui::IsItemActive();
                         if (ImGui::IsItemActivated()) { snapPosX = positionX; snapPosY = positionY; snapPosZ = positionZ; }
@@ -144,7 +148,7 @@ namespace Properties {
                     };
                     auto DragRot = [&](const char* label, float& val) {
                         ImGui::PushItemWidth(-1);
-                        ImGui::DragFloat(label, &val, 1.0f, 0.0f, 0.0f, "%.1f");
+                        ImGui::DragFloat(label, &val, 1.0f, 0.0f, 0.0f, "%.3f");
                         ImGui::PopItemWidth();
                         if (!typing) typing = ImGui::IsItemActive();
                         if (ImGui::IsItemActivated()) { snapRotX = rotationX; snapRotY = rotationY; snapRotZ = rotationZ; }

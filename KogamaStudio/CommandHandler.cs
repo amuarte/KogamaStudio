@@ -420,6 +420,29 @@ new System.Collections.Generic.Queue<(int id, string text)>();
                     CustomModelScale.Scale = float.Parse(param, System.Globalization.CultureInfo.InvariantCulture);
                     break;
 
+                case "option_unlimited_muzzle_position":
+                    UnlimitedMuzzlePosition.Enabled = param == "true";
+                    break;
+
+                case "option_custom_wo_scale_enabled":
+                    CustomWOScale.Enabled = param == "true";
+                    if (CustomWOScale.Enabled)
+                        CustomWOScale.RequestNewGroupIfNecessary();
+                    break;
+                case "option_custom_wo_scale_value":
+                {
+                    var p = param.Split('|');
+                    var inv2 = System.Globalization.CultureInfo.InvariantCulture;
+                    if (p.Length == 3)
+                        CustomWOScale.Scale = new Vector3(
+                            float.Parse(p[0], inv2),
+                            float.Parse(p[1], inv2),
+                            float.Parse(p[2], inv2));
+                    if (CustomWOScale.Enabled)
+                        CustomWOScale.RequestNewGroupIfNecessary();
+                    break;
+                }
+
                 case "generate_model":
                     if (!ModelBuilder.IsBuilding)
                     {

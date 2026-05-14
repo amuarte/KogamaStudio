@@ -117,7 +117,11 @@ namespace Recovery {
                     {
                         menu::IntInput(TR(u8"Target ItemID"), targetItemId, u8"recovery_target_item_id", typing);
 
+                        ImGui::PushStyleColor(ImGuiCol_Button,        ImVec4(0.6f, 0.1f, 0.1f, 1.0f));
+                        ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.8f, 0.2f, 0.2f, 1.0f));
+                        ImGui::PushStyleColor(ImGuiCol_ButtonActive,  ImVec4(0.5f, 0.05f, 0.05f, 1.0f));
                         if (ImGui::Button(TR(u8"Remove Item From Inventory"))) SendCommand(u8"recovery_remove_item");
+                        ImGui::PopStyleColor(3);
 
                         if (ImGui::Button(TR(u8"Disable Loading Screen"))) SendCommand(u8"recovery_disable_loading_screen");
                         ImGui::EndTabItem();

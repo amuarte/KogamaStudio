@@ -27,6 +27,7 @@ namespace Tools {
     static float CustomModelScaleValue = 4.0f;
     static bool CustomWOScaleEnabled = false;
     static float CustomWOScaleValue[3] = { 1.0f, 1.0f, 1.0f };
+    static bool UnlimitedMuzzlePosition = false;
 
 
 
@@ -86,15 +87,7 @@ namespace Tools {
         }
 
         if (CustomGridSizeEnabled) {
-            ImGui::PushItemWidth(100);
-            ImGui::InputFloat(TR(u8"Size"), &CustomGridSizeValue);
-            ImGui::PopItemWidth();
-
-            if (!typing) typing = ImGui::IsItemActive();
-
-            if (ImGui::IsItemEdited()) {
-                SendCommand((u8"option_custom_grid_size|" + std::to_string(CustomGridSizeValue)).c_str());
-            }
+            DragFloatInput(TR(u8"Size"), CustomGridSizeValue, u8"option_custom_grid_size", typing, 0.1f, 100.0f, u8"%.3f");
         }
 
         // custom rot step
@@ -104,15 +97,7 @@ namespace Tools {
         }
 
         if (CustomRotStepEnabled) {
-            ImGui::PushItemWidth(100);
-            ImGui::InputFloat(TR(u8"Step"), &CustomRotStepValue);
-            ImGui::PopItemWidth();
-
-            if (!typing) typing = ImGui::IsItemActive();
-
-            if (ImGui::IsItemEdited()) {
-                SendCommand((u8"option_custom_rot_step_size|" + std::to_string(CustomRotStepValue)).c_str());
-            }
+            DragFloatInput(TR(u8"Step"), CustomRotStepValue, u8"option_custom_rot_step_size", typing, 1.0f, 100.0f, u8"%.3f");
         }
 
         // unlimited config
@@ -161,6 +146,12 @@ namespace Tools {
             }
         }
 
+
+        // unlimited muzzle position
+        if (ImGui::Checkbox(TR(u8"Unlimited Muzzle Position"), &UnlimitedMuzzlePosition)) {
+            if (UnlimitedMuzzlePosition) SendCommand(u8"option_unlimited_muzzle_position|true");
+            else SendCommand(u8"option_unlimited_muzzle_position|false");
+        }
 
         if (ImGui::Button("Test")) {
             SendCommand("test");
