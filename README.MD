@@ -2,12 +2,12 @@
     <img src="images/logo.svg" alt="KogamaStudio" width="400" /> 
 </h1>
 <p align="center">
-  <a href="https://github.com/imuarte/KogamaStudio/releases/download/v0.5.1/KogamaStudio-Installer.exe">
+  <a href="https://github.com/imuarte/KogamaStudio/releases/download/v0.5.2/KogamaStudio-Installer.exe">
     <img src="https://img.shields.io/badge/Download-Installer-00c853?style=for-the-badge&logo=github" />
   </a>
 
   <a href="https://github.com/imuarte/KogamaStudio/releases">
-    <img src="https://img.shields.io/badge/Version-v0.5.1-blue?style=for-the-badge" />
+    <img src="https://img.shields.io/badge/Version-v0.5.2-blue?style=for-the-badge" />
   </a>
 
   <a href="https://discord.gg/u6tKuP3k4M">
@@ -22,7 +22,7 @@ A mod for KoGaMa that adds useful features to build mode.
 ## Installation
 
 ### Automatic
-1. Download [KogamaStudio-Installer.exe](https://github.com/imuarte/KogamaStudio/releases/download/v0.5.1/KogamaStudio-Installer.exe)
+1. Download [KogamaStudio-Installer.exe](https://github.com/imuarte/KogamaStudio/releases/download/v0.5.2/KogamaStudio-Installer.exe)
 2. Run installer and select server
 3. Done!
 > ⚠️ First launch may take longer than usual.
